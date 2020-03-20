@@ -1,19 +1,9 @@
-jobs:
-  build:
-    steps:
-      - checkout
-      - sonarcloud/scan
-       - run:
-          name: Analyze on SonarCloud
-          command: mvn verify sonar:sonar
-        - run: 
-          command: mvn package
+version: 2.1
 
 orbs:
-  sonarcloud: admin/admin
-version: 2.1
+  maven: circleci/maven@0.0.12
+
 workflows:
-  main:
+  maven_test:
     jobs:
-      - build:
-          context: sonarcloud
+      - maven/test # checkout, build, test, and upload test results
