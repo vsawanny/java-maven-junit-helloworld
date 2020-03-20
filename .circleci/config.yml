@@ -6,7 +6,7 @@ jobs:
        - run:
           name: Analyze on SonarCloud
           command: mvn verify sonar:sonar
-        -run: 
+        - run: 
           command: mvn package
 
 orbs:
