@@ -1,0 +1,19 @@
+jobs:
+  build:
+    -run:
+     command: mvn clean install
+    steps:
+      - checkout
+      - sonarcloud/scan
+       - run:
+          name: Analyze on SonarCloud
+          command: mvn verify sonar:sonar
+
+orbs:
+  sonarcloud: admin/admin
+version: 2.1
+workflows:
+  main:
+    jobs:
+      - build:
+          context: sonarcloud
