@@ -1,11 +1,31 @@
 version: 2.1
+commands:
+  check-code-quality:
+    description: Check Code Quality
+    parameters:
+        sonar_server_url:
+            type: string
+            description: "URL of your SonarQube server. e.g.: http://localhost:9000"
+            default: "$SONAR_SERVER"
+        sonar_login:
+            description: "Authentication key (sonar.login paramter) to access SonarQube and perform analysis"
+            type: string
+            default: "$SONAR_TOKEN"
+
+  steps:
+    - run:
+        name: Run Sonarscanner
+        command: |
+            export SONAR_SCANNER_OPTS="-Xmx2048m"
+            eval ./sonar-scanner-4.2.0.1873/bin/sonar-scanner -Dsonar.host.url= http://localhost:9000 \
+            -Dsonar.login=admin/admin
 
 orbs:
   maven: circleci/maven@0.0.12
-  sonar-scanner: nodis-com-br/sonar-scanner@0.1.0
 
 workflows:
   maven_test:
     jobs:
       - maven/test # checkout, build, test, and upload test results
       
+    
