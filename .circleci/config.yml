@@ -1,25 +1,19 @@
 version: 2.1
-description: "This orb measures code quality using SonarQube server and fails the build when the predefined quality gate has broken. Default sonarScanner is used to execute analysis. The script runs with zero tolerancy in terms of errors. If any error found during the analysis the build will fail."
-commands:
-  check-code-quality:
-    description: Check Code Quality
-    parameters:
-        sonar_server_url:
-            type: string
-            description: "URL of your SonarQube server. e.g.: http://localhost:9000"
-            default: "$SONAR_SERVER"
-        sonar_login:
-            description: "Authentication key (sonar.login paramter) to access SonarQube and perform analysis"
-            type: string
-            default: "$SONAR_TOKEN"
-    
-job:
-  steps:
-   
-    - run: mvn test
-    - run:
-        name: Run Sonarscanner
-        command: |
-            export SONAR_SCANNER_OPTS="-Xmx2048m"
-            eval ./sonar-scanner-4.2.0.1873/bin/sonar-scanner -Dsonar.host.url= http://localhost:9000 \
-            -Dsonar.login=admin/admin
+jobs:
+  build:
+    docker: 
+      - image: circleci/node:4.8.2 # the primary container, where your job's commands are run
+    steps:
+      - checkout # check out the code in the project directory
+      - run: echo "hello world" # run the `echo` command
+      - run: mvn package
+      - sonarcloud/scan_with_maven
+      - run:
+           name: Run Sonarqube scanner
+           command: |
+            export SONARQUBE_TOKEN=05edd31dfe9ec516beefe3d341eeae24bf2ea51f
+            -Dsonar.sourceEncoding=UTF-8 \
+            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.projectVersion=0.9.4 \
+            -Dsonar.login=admin \
+            -Dsonar.password=admin
