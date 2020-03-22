@@ -8,6 +8,7 @@ jobs:
       - run: echo "hello world" # run the `echo` command
       - run: mvn package
       - sonarcloud/scan_with_maven
+      
       - run:
            name: Run Sonarqube scanner
            command: |
