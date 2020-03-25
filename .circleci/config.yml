@@ -1,0 +1,15 @@
+version: 2.1
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.0.0
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+    - checkout
+    - sonarcloud/scan
+workflows:
+  my-workflow:
+    jobs:
+      - build:
+          context: sonarcloud
