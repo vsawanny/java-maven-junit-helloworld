@@ -40,6 +40,28 @@
       <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
+           <dependency>
+<groupId>org.sonarsource.scanner.maven</groupId>
+<artifactId>sonar-maven-plugin</artifactId>
+<version>3.2</version>
+</dependency>
+
+Followed by the profile
+
+<profiles>
+<profile>
+<id>sonar</id>
+<activation>
+<activeByDefault>true</activeByDefault>
+</activation>
+<properties>
+<!-- Optional URL to server. Default value is http://localhost:9000 -->
+<sonar.host.url>
+http://192.168.2.174:9000
+</sonar.host.url>
+</properties>
+</profile>
+</profiles>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
